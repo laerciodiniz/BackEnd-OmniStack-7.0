@@ -1,2 +1,0 @@
-userMongoDB: 'admin'
-passwordMongoDB: 'admin'
