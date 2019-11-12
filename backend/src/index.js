@@ -1,14 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {userMongoDB, passwordMongoDB} = require('./config/security');
+const { UsuarioMongoDB, SenhaMongoDB, DATABASE_URL } = require('./config/security');
 
 const app = express();
 
-mongoose.connect(`mongodb+srv://${userMongoDB}:${passwordMongoDB}@cluster0-r4hcb.mongodb.net/test?retryWrites=true&w=majority`, {
+mongoose.connect(DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
 
 app.use(require('./routes'));
 
