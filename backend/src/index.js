@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { UsuarioMongoDB, SenhaMongoDB, DATABASE_URL } = require('./config/security');
+const { DATABASE_URL } = require('./config/security');
 
 const app = express();
 
