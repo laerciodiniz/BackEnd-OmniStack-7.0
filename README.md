@@ -1,1 +1,4 @@
-# BackEnd-OmniStack-7.0
+# OmniStack-7.0
+# BackEnd OK
+# FrontEnd ...
+# Mobile
