@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import api from '../services/api';
 
 import "./Feed.css";
 
@@ -8,20 +9,34 @@ import comment from "../assets/comment.svg";
 import send from "../assets/send.svg";
 
 class Feed extends Component {
+
+  state = {
+    feed: [],
+
+  }
+
+  async componentDidMount() {
+    const response = await api.get('posts');
+
+    this.setState({ feed: response.data })
+
+  }
+
   render() {
     return (
       <section id="post-list">
-        <article>
+        { this.state.feed.map(post => (
+          <article>
           <header>
             <div className="user-info">
-              <span>Laercio Diniz</span>
-              <span classname="place">Lagoa Seca</span>
+              <span>{post.author} </span>
+              <span classname="place">{post.place} </span>
             </div>
 
             <img src={more} alt="Mais" />
           </header>
 
-          <img src="http://localhost:3333/files/natal.jpg" alt="Mais" />
+          <img src={`http://localhost:3333/files/${post.image}`} alt="Mais" />
 
           <footer>
             <div className="actions">
@@ -30,14 +45,15 @@ class Feed extends Component {
               <img src={send} alt="" />
             </div>
 
-            <strong>999 curitdas</strong>
+            <strong>{post.likes} curtidas</strong>
 
             <p>
-              Feliz Natal hohoho
-              <span>#natal #fimdeano #massa</span>
+              {post.description}
+              <span>{post.hashtags} </span>
             </p>
           </footer>
         </article>
+        )) }
       </section>
     );
   }
