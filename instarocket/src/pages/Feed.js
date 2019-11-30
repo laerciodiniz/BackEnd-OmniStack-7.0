@@ -11,7 +11,7 @@ import send from '../assets/send.png';
 export default class Feed extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
-      <TouchableOpacity style={{ marginRight: 20 }} onPress={() => navigation.navigate('New')}>
+      <TouchableOpacity style={{ marginRight: 20 }} style={styles.action} onPress={() => navigation.navigate('New')}>
         <Image source={camera} />
       </TouchableOpacity>
     ),
@@ -40,7 +40,7 @@ export default class Feed extends Component {
             <View styles={styles.feedItem}>
 
               <View style={styles.feedItemHeader}>
-                <View style={styles.userInfo}> 
+                <View style={styles.userInfo}>
                   <Text styles={styles.name}>{item.author} </Text>
                   <Text styles={styles.place}>{item.place} </Text>
                 </View>
@@ -48,17 +48,17 @@ export default class Feed extends Component {
                 <Image source={more} />
               </View>
 
-              <Image style={styles.feedImage} source={{ uri: `http://10.0.3.2:3333/${item.image}`}}/>
+              <Image style={styles.feedImage} source={{ uri: `http://10.0.3.2:3333/files/${item.image}` }}/>
 
               <View style={styles.feedItemFooter}>
                 <View style={styles.actions}>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity style={styles.action} onPress={() => {}}>
                     <Image source={like}/>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity style={styles.action} onPress={() => {}}>
                     <Image source={comment}/>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity style={styles.action} onPress={() => {}}>
                     <Image source={send}/>
                   </TouchableOpacity>
                 </View>
@@ -76,5 +76,63 @@ export default class Feed extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
 
+  feedItem: {
+    marginTop: 20,
+  },
+
+  feedItemHeader: {
+    paddingHorizontal: 15,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  name: {
+    fontSize: 14,
+    color: '#000',
+  },
+
+  place: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 2,
+  },
+
+  feedImage: {
+    width: '100%',
+    height: 400,
+    marginVertical: 15,
+  },
+
+  feedItemFooter: {
+    paddingHorizontal: 15,
+  },
+
+  actions: {
+    flexDirection: 'row',
+  },
+
+  action: {
+    marginRight: 8,
+  },
+
+  likes: {
+    marginTop: 5,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
+  description: {
+    lineHeight: 18,
+    color: '#000',
+  },
+
+  hashtags: {
+    color: '#7159c1',
+  },
 });
