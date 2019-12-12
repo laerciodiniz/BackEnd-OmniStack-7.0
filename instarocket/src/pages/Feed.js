@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import io from 'socket.io-client';
 import api from '../services/api';
-import { Text, View, Image, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
 
 import camera from '../assets/camera.png';
 import more from '../assets/more.png';
@@ -10,46 +17,48 @@ import comment from '../assets/comment.png';
 import send from '../assets/send.png';
 
 export default class Feed extends Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     headerRight: (
-      <TouchableOpacity style={{ marginRight: 20 }} style={styles.action} onPress={() => navigation.navigate('New')}>
+      <TouchableOpacity
+        style={{marginRight: 20}}
+        style={styles.action}
+        onPress={() => navigation.navigate('New')}>
         <Image source={camera} />
       </TouchableOpacity>
     ),
   });
-  
+
   state = {
     feed: [],
-  }
+  };
 
   async componentDidMount() {
-   this.registerToSocket();
+    this.registerToSocket();
 
     const response = await api.get('posts');
     console.log(response.data);
-    this.setState({ feed: response.data })
-
+    this.setState({feed: response.data});
   }
 
   registerToSocket = () => {
     const socket = io('http://10.0.3.2:3333');
 
     socket.on('post', newPost => {
-      this.setState({ feed: [newPost, ...this.state.feed] });
-    })
+      this.setState({feed: [newPost, ...this.state.feed]});
+    });
 
     socket.on('like', likedPost => {
       this.setState({
         feed: this.state.feed.map(post =>
-          post._id === likedPost._id ? likedPost : post
-        )
-      })
-    })
-  }
+          post._id === likedPost._id ? likedPost : post,
+        ),
+      });
+    });
+  };
 
   handleLike = id => {
     api.post(`/posts/${id}/like`);
-  }
+  };
 
   render() {
     return (
@@ -57,9 +66,8 @@ export default class Feed extends Component {
         <FlatList
           data={this.state.feed}
           keyExtractor={post => post._id}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <View styles={styles.feedItem}>
-
               <View style={styles.feedItemHeader}>
                 <View style={styles.userInfo}>
                   <Text styles={styles.name}>{item.author} </Text>
@@ -69,18 +77,23 @@ export default class Feed extends Component {
                 <Image source={more} />
               </View>
 
-              <Image style={styles.feedImage} source={{ uri: `http://10.0.3.2:3333/files/${item.image}` }}/>
+              <Image
+                style={styles.feedImage}
+                source={{uri: `http://10.0.3.2:3333/files/${item.image}`}}
+              />
 
               <View style={styles.feedItemFooter}>
                 <View style={styles.actions}>
-                  <TouchableOpacity style={styles.action} onPress={() => this.handleLike(item._id)}>
-                    <Image source={like}/>
+                  <TouchableOpacity
+                    style={styles.action}
+                    onPress={() => this.handleLike(item._id)}>
+                    <Image source={like} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.action} onPress={() => {}}>
-                    <Image source={comment}/>
+                    <Image source={comment} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.action} onPress={() => {}}>
-                    <Image source={send}/>
+                    <Image source={send} />
                   </TouchableOpacity>
                 </View>
 
